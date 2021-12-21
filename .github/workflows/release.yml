@@ -1,0 +1,31 @@
+name: publish
+
+on:
+  push:
+    tags: v*.*.*
+
+jobs:
+  npm-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install npm dependencies
+      run: npm ci
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Test
+      run: npm test
+
+    - name: Publish tag to npm
+      if: contains(github.ref, 'tags')
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

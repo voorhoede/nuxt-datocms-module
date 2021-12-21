@@ -1,0 +1,48 @@
+{
+  "name": "@voorhoede/nuxt-datocms-module",
+  "version": "0.0.0",
+  "description": "Nuxt module for querying and subscribing to dato's GraphQL API",
+  "repository": "git@github.com:voorhoede/nuxt-datocms-module.git",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Voorhoede"
+    }
+  ],
+  "main": "./lib/module.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "types",
+    "lib"
+  ],
+  "scripts": {
+    "dev": "nuxt example",
+    "lint": "eslint --ext .js,.vue .",
+    "test": "yarn lint && jest"
+  },
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/preset-env": "latest",
+    "@nuxt/test-utils": "^0.2.2",
+    "@nuxt/types": "^2.15.8",
+    "@nuxtjs/eslint-config": "latest",
+    "@nuxtjs/module-test-utils": "latest",
+    "babel-eslint": "latest",
+    "babel-jest": "latest",
+    "eslint": "^8.4.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "latest",
+    "npm-run-all": "^4.1.5",
+    "nuxt-edge": "latest",
+    "playwright": "^1.17.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "datocms-listen": "^0.1.6",
+    "isomorphic-fetch": "^3.0.0"
+  }
+}
