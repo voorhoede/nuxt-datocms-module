@@ -4,7 +4,10 @@ export default {
   target: 'static',
 
   buildModules: [
-    '@nuxt/typescript-build',
     datocmsModule,
   ],
+
+  datocms: {
+    datoReadOnlyToken: 'my-token',
+  },
 };
