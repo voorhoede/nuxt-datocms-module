@@ -7,6 +7,7 @@ interface DatocmsOptions {
 interface QueryOptions {
   query: string,
   variables?: object,
+  /** Whether to query preview data, defaults to whether [preview mode](https://nuxtjs.org/docs/features/live-preview/) is enabled */
   preview?: boolean
 }
 
