@@ -9,11 +9,21 @@
         Enter preview mode (for subscriptions)
       </button>
     </client-only>
+    <section>
+      <h2>Live feed</h2>
+      <ul>
+        <li v-for="item in feedItems" :key="item.id">
+          <structured-text :data="item.content" />
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
 <script>
-const query = `
+import { StructuredText } from 'vue-datocms';
+
+const pageQuery = `
 query {
   page: home {
     title
@@ -21,15 +31,47 @@ query {
 }
 `;
 
+const liveFeedQuery = `
+query {
+  home {
+    feedItems: liveFeed {
+      ... on LiveFeedItemRecord {
+        id
+        content {
+          value
+        }
+      }
+    }
+  }
+}
+`;
+
 export default {
+  components: {
+    StructuredText,
+  },
   asyncData ({ $dato }) {
-    return $dato.query({ query });
+    return $dato.query({ query: pageQuery });
+  },
+  data () {
+    return {
+      feedItems: [],
+    };
   },
   mounted () {
     this.$dato.subscribe({
-      query,
+      query: pageQuery,
       onUpdate: (data) => {
         this.page = data.page;
+      },
+    });
+
+    this.$dato.subscribe({
+      query: liveFeedQuery,
+      enabled: true,
+      preview: false,
+      onUpdate: (data) => {
+        this.feedItems = data.home.feedItems;
       },
     });
   },
