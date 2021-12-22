@@ -15,11 +15,11 @@ interface SubscribeOptions {
   query: string,
   /** graphql query variables */
   variables?: object,
-  /** Whether to query preview data */
+  /** Whether to query preview data, defaults to whether [preview mode](https://nuxtjs.org/docs/features/live-preview/) is enabled */
   preview?: boolean,
   /** By default, on route changes the subscription is unsubscribed */
   unsubscribeOnRouteChange?: boolean,
-  /** By default, subscriptions are only enabled in [preview mode](https://nuxtjs.org/docs/features/live-preview/) */
+  /** By default, subscriptions are by default only enabled in [preview mode](https://nuxtjs.org/docs/features/live-preview/) */
   enabled?: boolean,
   /** Callback for new data */
   onUpdate: (data: Promise<object>) => any,
@@ -50,7 +50,7 @@ declare module '@nuxt/types' {
   }
 
   interface NuxtAppOptions {
-    $dato?: DatocmsPlugin
+    $datocms?: DatocmsPlugin
   }
 
   interface Configuration {

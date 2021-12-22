@@ -50,8 +50,8 @@ export default {
   components: {
     StructuredText,
   },
-  asyncData ({ $dato }) {
-    return $dato.query({ query: pageQuery });
+  asyncData ({ $datocms }) {
+    return $datocms.query({ query: pageQuery });
   },
   data () {
     return {
@@ -59,14 +59,14 @@ export default {
     };
   },
   mounted () {
-    this.$dato.subscribe({
+    this.$datocms.subscribe({
       query: pageQuery,
       onUpdate: (data) => {
         this.page = data.page;
       },
     });
 
-    this.$dato.subscribe({
+    this.$datocms.subscribe({
       query: liveFeedQuery,
       enabled: true,
       preview: false,
