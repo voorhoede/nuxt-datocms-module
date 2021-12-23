@@ -138,7 +138,7 @@ Returns a function close the subscription.
         liveFeedItems: [],
         status: null,
         error: null,
-        unscribe: null,
+        unsubscribe: null,
       }
     },
     async mounted () {
@@ -177,8 +177,8 @@ Copyright (c) Voorhoede
 [npm-downloads-src]: https://img.shields.io/npm/dt/@voorhoede/nuxt-datocms-module.svg
 [npm-downloads-href]: https://npmjs.com/package/@voorhoede/nuxt-datocms-module
 
-[github-actions-ci-src]: https://github.com/git@github.com:voorhoede/nuxt-datocms-module.git/workflows/ci/badge.svg
-[github-actions-ci-href]: https://github.com/git@github.com:voorhoede/nuxt-datocms-module.git/actions?query=workflow%3Aci
+[github-actions-ci-src]: https://github.com/voorhoede/nuxt-datocms-module/actions/workflows/ci.yml/badge.svg
+[github-actions-ci-href]: https://github.com/voorhoede/nuxt-datocms-module/actions?query=workflow%3Aci
 
 [codecov-src]: https://img.shields.io/codecov/c/github/git@github.com:voorhoede/nuxt-datocms-module.git.svg
 [codecov-href]: https://codecov.io/gh/git@github.com:voorhoede/nuxt-datocms-module.git
