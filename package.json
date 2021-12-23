@@ -1,6 +1,6 @@
 {
   "name": "@voorhoede/nuxt-datocms-module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Nuxt module for querying and subscribing to dato's GraphQL API",
   "repository": "git@github.com:voorhoede/nuxt-datocms-module.git",
   "license": "MIT",
