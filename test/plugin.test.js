@@ -1,5 +1,4 @@
 import * as datocmsListen from 'datocms-listen';
-import { subscribeToQuery } from 'datocms-listen';
 import fetchMock from 'fetch-mock';
 
 import plugin from '../lib/plugin';
