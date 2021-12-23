@@ -1,15 +1,29 @@
+import * as datocmsListen from 'datocms-listen';
+import { subscribeToQuery } from 'datocms-listen';
 import fetchMock from 'fetch-mock';
+
 import plugin from '../lib/plugin';
 
-describe('Plugin', () => {
-  const mockContext = {
-    app: {
-      router: { afterEach: jest.fn() },
-      context: {
-        preview: undefined,
+jest.mock('datocms-listen', () => ({
+  subscribeToQuery: jest.fn(),
+}));
+
+const routeChangeHooks = [];
+const mockContext = {
+  app: {
+    router: {
+      afterEach (callback) {
+        routeChangeHooks.push(callback);
       },
     },
-  };
+    context: {
+      preview: undefined,
+    },
+  },
+};
+
+describe('Plugin', () => {
+  const query = 'query { home { title } }';
 
   beforeAll(() => {
     function mockInject (name, plugin) {
@@ -20,8 +34,6 @@ describe('Plugin', () => {
   });
 
   describe('Query', () => {
-    const query = 'query { home { title } }';
-
     describe('Successful requests', () => {
       const responseData = {
         home: { title: 'Home' },
@@ -77,6 +89,145 @@ describe('Plugin', () => {
     it('Throws when there\'s no data in the response', async () => {
       fetchMock.mock('*', { data: null });
       await expect(() => mockContext.$datocms.query({ query })).rejects.toThrow('Empty response');
+    });
+  });
+
+  describe('Subscribe', () => {
+    it('Doesn\'t subscribe when `enabled` is set to `false`', async () => {
+      await mockContext.$datocms.subscribe({
+        query,
+        enabled: false,
+        onUpdate: () => {},
+      });
+      expect(datocmsListen.subscribeToQuery).not.toHaveBeenCalled();
+    });
+
+    it('Does subscribe when `enabled` is set to `true`', async () => {
+      await mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+      });
+      expect(datocmsListen.subscribeToQuery).toHaveBeenCalled();
+    });
+
+    it('Unsubscribes on route change', async () => {
+      const unsubscribe = jest.fn();
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(
+          () => Promise.resolve(unsubscribe)
+        );
+      await mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+      });
+      routeChangeHooks.forEach(callback => callback());
+      expect(unsubscribe).toHaveBeenCalled();
+    });
+
+    it('Unsubscribes when unsubscribe is called', async () => {
+      const unsubscribe = jest.fn();
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(
+          () => Promise.resolve(unsubscribe)
+        );
+      const unsubscribeCallback = await mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+      });
+      unsubscribeCallback();
+      expect(unsubscribe).toHaveBeenCalled();
+    });
+
+    it('Unsubscribes once when unsubscribe is called and then route is changed', async () => {
+      const unsubscribe = jest.fn();
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(
+          () => Promise.resolve(unsubscribe)
+        );
+      const unsubscribeCallback = await mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+      });
+      unsubscribeCallback();
+      routeChangeHooks.forEach(callback => callback());
+      expect(unsubscribe).toHaveBeenCalledTimes(1);
+    });
+
+    it('Calls `onUpdate` with response data when new data comes in', () => {
+      const response = {
+        response: {
+          data: {
+            home: { title: 'title-1' },
+          },
+        },
+      };
+
+      function onUpdate (data) {
+        expect(data).toEqual(response.response.data);
+      }
+
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(({ onUpdate }) => {
+          onUpdate(response);
+        });
+
+      mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate,
+      });
+    });
+
+    it('Calls `onStatusChange` when subscription status changes', () => {
+      const connectionStatus = 'connecting';
+      function onStatusChange (updatedStatus) {
+        expect(updatedStatus).toEqual(connectionStatus);
+      }
+
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(({ onStatusChange }) => {
+          onStatusChange(connectionStatus);
+        });
+
+      mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+        onStatusChange,
+      });
+    });
+
+    it('Calls `onChannelError` when an error occurs', () => {
+      const channelError = {
+        code: 'INVALID_QUERY',
+        message: 'Field title does not exist on home',
+        fatal: true,
+      };
+      function onChannelError (error) {
+        expect(error).toEqual(channelError);
+      }
+
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(({ onChannelError }) => {
+          onChannelError(channelError);
+        });
+
+      mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => {},
+        onChannelError,
+      });
     });
   });
 });
