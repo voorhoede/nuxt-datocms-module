@@ -102,6 +102,15 @@ describe('Plugin', () => {
       expect(datocmsListen.subscribeToQuery).not.toHaveBeenCalled();
     });
 
+    it('Still returns a function when `enabled` is set to `false`', async () => {
+      const unsubscribe = await mockContext.$datocms.subscribe({
+        query,
+        enabled: false,
+        onUpdate: () => {},
+      });
+      expect(typeof unsubscribe).toBe('function');
+    });
+
     it('Does subscribe when `enabled` is set to `true`', async () => {
       await mockContext.$datocms.subscribe({
         query,
