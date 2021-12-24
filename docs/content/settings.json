@@ -1,0 +1,10 @@
+{
+  "title": "@voorhoede/nuxt-datocms-module",
+  "url": "",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "github": "voorhoede/nuxt-datocms-module",
+  "twitter": "@devoorhoede"
+}
