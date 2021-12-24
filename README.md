@@ -6,6 +6,11 @@
 [![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
+Integrates nuxt with [Datocms](https://www.datocms.com/)
+
+* 🔎 Query GraphQL API
+* 👂 Subscribe to GraphQL query
+* ✨ Query or subscribe to GraphQL's preview endpoint
 
 ## Setup
 
