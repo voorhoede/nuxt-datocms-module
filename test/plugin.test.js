@@ -168,6 +168,23 @@ describe('Plugin', () => {
       expect(unsubscribe).toHaveBeenCalledTimes(1);
     });
 
+    it('Doesn\'t unsubscribe on route change when `unsubscribeOnRouteChange` is set to `false`', async () => {
+      const unsubscribe = jest.fn();
+      jest
+        .spyOn(datocmsListen, 'subscribeToQuery')
+        .mockImplementation(
+          () => Promise.resolve(unsubscribe)
+        );
+      await mockContext.$datocms.subscribe({
+        query,
+        enabled: true,
+        onUpdate: () => { },
+        unsubscribeOnRouteChange: false,
+      });
+      routeChangeHooks.forEach(callback => callback());
+      expect(unsubscribe).not.toHaveBeenCalled();
+    });
+
     it('Calls `onUpdate` with response data when new data comes in', () => {
       const response = {
         response: {
