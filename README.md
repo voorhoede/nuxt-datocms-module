@@ -3,7 +3,6 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![Github Actions CI][github-actions-ci-src]][github-actions-ci-href]
-[![Codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
 Integrates nuxt with [Datocms](https://www.datocms.com/)
@@ -31,9 +30,6 @@ Copyright (c) Voorhoede
 
 [github-actions-ci-src]: https://github.com/voorhoede/nuxt-datocms-module/actions/workflows/ci.yml/badge.svg
 [github-actions-ci-href]: https://github.com/voorhoede/nuxt-datocms-module/actions?query=workflow%3Aci
-
-[codecov-src]: https://img.shields.io/codecov/c/github/git@github.com:voorhoede/nuxt-datocms-module.git.svg
-[codecov-href]: https://codecov.io/gh/git@github.com:voorhoede/nuxt-datocms-module.git
 
 [license-src]: https://img.shields.io/npm/l/@voorhoede/nuxt-datocms-module.svg
 [license-href]: https://npmjs.com/package/@voorhoede/nuxt-datocms-module
