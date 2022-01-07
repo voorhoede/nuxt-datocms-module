@@ -15,6 +15,10 @@ Integrates nuxt with [Datocms](https://www.datocms.com/)
 * 👂 Subscribe to GraphQL query
 * ✨ Query or subscribe to GraphQL's preview endpoint
 
+## Maintenance
+
+This module is developed by [De Voorhoede](https://www.voorhoede.nl/). We will continue to maintain this module as long as we use this in our projects. Feel free to use and fork this module. We will only handle issues or accept pull requests if they aid our projects.
+
 ## License
 
 [MIT License](./LICENSE)
