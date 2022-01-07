@@ -1,15 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import dotenv from 'dotenv-safe';
-import { resolve } from 'path';
 
 dotenv.config();
 
 export default {
   target: 'static',
 
-  buildModules: [
+  modules: [
     '@voorhoede/nuxt-preview-mode-module',
-    resolve('../lib/module.js'),
+    '@voorhoede/nuxt-datocms-module',
   ],
 
   datocms: {

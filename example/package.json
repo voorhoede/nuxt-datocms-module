@@ -7,6 +7,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@voorhoede/nuxt-datocms-module": "^1.0.2",
     "@voorhoede/nuxt-preview-mode-module": "^1.0.3",
     "core-js": "^3.19.3",
     "nuxt": "^2.15.8",
