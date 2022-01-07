@@ -63,57 +63,30 @@ Returns a function close the subscription.
 #### Example
 
 ```vue
-<template>
-  <div>
-    <h1>Live feed</h1>
-    <ul>
-      <li v-for="item in feedItems" :key="item.id">
-        <h2>{{ item.title }}</h2>
-      </li>
-    </ul>
-    <button v-if="unsubscribe" @click="unsubscribe">Stop updates</button>
-  </div>
-</template>
-
 <script>
-  const query = `
-    query ($locale: SiteLocale!) {
-      home (locale: $locale) {
-        liveFeedItems {
-          title
-        }
-      }
+const query = `
+  query ($locale: SiteLocale!) {
+    home (locale: $locale) {
+      title
     }
-  `;
+  }
+`;
 
-  export default {
-    data() {
-      return {
-        liveFeedItems: [],
-        status: null,
-        error: null,
-        unsubscribe: null,
-      }
-    },
-    async mounted () {
-      this.unsubscribe = await this.$datocms.subscribe({
-        query,
-        variables: {
-          locale: 'en',
-        },
-        enabled: true,
-        preview: false,
-        onUpdate: (data) => {
-          this.liveFeedItems = data.home.liveFeedItems;
-        },
-        onStatusChange: (status) => {
-          this.status = status;
-        },
-        onChannelError: (error) => {
-          this.error = error;
-        },
-      });
-    },
-  };
+export default {
+  mounted() {
+    // Default implementation only enabled in preview mode,
+    // so content managers can see their changes live.
+    // Will be unsubscribed automatically on route changes.
+    this.$datocms.subscribe({
+      query,
+      variables: {
+        locale: 'en',
+      },
+      onUpdate: (data) => {
+        this.home = data.home;
+      },
+    });
+  }
+};
 </script>
 ```
